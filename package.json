@@ -1,0 +1,26 @@
+{
+  "name": "deviantart-bot",
+  "version": "0.1.0",
+  "description": "DeviantART Telegram Bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShinCurry/DeviantART-Bot.git"
+  },
+  "keywords": [
+    "DeviantART"
+  ],
+  "author": "ShinCurry",
+  "bugs": {
+    "url": "https://github.com/ShinCurry/DeviantART-Bot/issues"
+  },
+  "homepage": "https://github.com/ShinCurry/DeviantART-Bot#readme",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "request": "^2.67.0"
+  }
+}
