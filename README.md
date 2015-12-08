@@ -16,6 +16,14 @@ $ npm install
 
 ## Configuration
 
+Telegram setWebHook
+
+```
+https://api.telegram.org/bot<yourToken>/setwebhook?url=<yourWebsite>/deviantart
+```
+
+edit `conifg.js`
+
 ```
 var config = {
 	app : {
@@ -56,13 +64,13 @@ $ forever stop app.js
 
 ```
 Commands list:
-test - Command Test
 hot - fetch Hot DeviantART
-id - fetch someone's page link
-help - Bot Help
 about - About This Bot
-rss - get DeviantART RSS
 ```
+
+## License
+
+GPL 3.0
 
 ## Reference
 
