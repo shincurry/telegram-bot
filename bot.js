@@ -29,28 +29,28 @@ function daRSS(message, callback) {
 
 function daHot(message, callback) {
     console.log("/hot");
-    deviantAPI.getHot("hot", function(data) {
+    deviantAPI.getHot(function(data) {
         if (data.error) {
-            console.log(data);
             callback();
             return;
         }
         var deviant = data.results;
         deviant.forRandom(3, function(element) {
             var text = "";
-            text += "AUTHOR @ " + element.author.username + "\n";
-            text += "CATEGORY # " + element.category + "\n";
+            text += "Author @ " + element.author.username + "\n";
+            text += "Category # " + element.category + "\n";
+            text += element.url;
             telegramAPI.sendMessage(message.chat.id, message.message_id, text, callback);
         });
     });
 }
 function daID(message, callback) {
     console.log("/id");
-    if (message[1] != "") {
+    if (message.text[1] == "") {
         callback();
         return;
     }
-    deviantAPI.getProfile(message[1], function(data) {
+    deviantAPI.getProfile(message.text[1], function(data) {
         if (data.error) {
             console.log(data);
             telegramAPI.sendMessage(message.chat.id, message.message_id, data.error_description, callback);
