@@ -13,7 +13,8 @@ function daRSS(message, callback) {
 function daHot(message, callback) {
     console.log("/hot");
     deviantAPI.getData("hot", function(data) {
-        var len = data.length;
+        var len = data.results.length;
+        len = len > 5 ? 5 : len;
         for (var i = 0; i < len; ++i) {
             var deviant = data.results[i];
             var text = "";
@@ -47,7 +48,7 @@ function daHelp(message, callback) {
 }
 function da(message, callback) {
     console.log("/*");
-    sendMessage(message.chat.id, message.message_id, "received.", callback);
+    telegramAPI.sendMessage(message.chat.id, message.message_id, "received.", callback);
 }
 
 
@@ -56,22 +57,28 @@ var bot = {
         switch (message.text) {
             // TO-DO 使用正则表达式
             case "/rss":
+            case "/rss" + config.bot.id:
                 daRSS(message, callback);
                 break;
             case "/hot":
+            case "/hot" + config.bot.id:
                 daHot(message, callback);
                 break;
             case "/id":
+            case "/id" + config.bot.id:
                 daID(message, callback);
                 break;
             case "/help":
+            case "/help" + config.bot.id:
                 daHelp(message, callback);
                 break;
             case "/about":
+            case "/about" + config.bot.id:
                 daAbout(message, callback);
                 break;
             default:
-                da(message, callback);
+                //da(message, callback);
+                callback();
         }
     },
 }

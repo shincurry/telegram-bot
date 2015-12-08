@@ -13,7 +13,7 @@ var tg = {
                 console.log("message 200");
                 callback();
             } else {
-                console.log("error");
+                console.log("error in sending message.");
                 console.log(error);
                 console.log(response.statusCode);
             }

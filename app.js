@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 var bot = require('./bot.js');
 
-app.post('/', function(req, res) {
+app.post('/deviantart', function(req, res) {
     console.log("get POST request");
     var update = req.body;
     var message = update.message;
