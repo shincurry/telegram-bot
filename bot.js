@@ -2,6 +2,21 @@ var deviantAPI = require('./API/deviantart.js');
 var telegramAPI = require('./API/telegram.js');
 var feed = require("feed-read");
 
+Array.prototype.forRandom = function(n, callback) {
+    if (n >= this.length) {
+        this.forEach(function(element) { callback(element); });
+        return;
+    }
+    var temp = [];
+    this.forEach(function(element, index) { temp[index] = element; });
+    var len = temp.length;
+    for (var i = 0; i < n; i++) {
+        var index = parseInt(Math.random() * 100) % len;
+        callback(temp[index]);
+        temp[index] = temp[--len];
+    }
+}
+
 function daRSS(message, callback) {
     var daRSS = "http://backend.deviantart.com/rss.xml?type=deviation&q=boost%3Apopular+in%3Adigitalart%2Fdrawings";
     feed(daRSS, function(err, articles) {
@@ -10,31 +25,45 @@ function daRSS(message, callback) {
         telegramAPI.sendMessage(message.chat.id, message.message_id, text, callback);
     });
 }
+
+
 function daHot(message, callback) {
     console.log("/hot");
-    deviantAPI.getData("hot", function(data) {
-        var len = data.results.length;
-        len = len > 5 ? 5 : len;
-        for (var i = 0; i < len; ++i) {
-            var deviant = data.results[i];
-            var text = "";
-            text += deviant.title + "\n";
-            text += deviant.url + "\n";
-            text += "@" + deviant.author.username + "\n";
-            text += deviant.category + "\n";
-            text += deviant.content.src + "\n";
-            // console.log(deviant.title);
-            // console.log(deviant.author);
-            // console.log(deviant.category);
-            // console.log(deviant.content);
-            // console.log(deviant.url);
-            telegramAPI.sendMessage(message.chat.id, message.message_id, text, callback);
+    deviantAPI.getHot("hot", function(data) {
+        if (data.error) {
+            console.log(data);
+            callback();
+            return;
         }
+        var deviant = data.results;
+        deviant.forRandom(3, function(element) {
+            var text = "";
+            text += "AUTHOR @ " + element.author.username + "\n";
+            text += "CATEGORY # " + element.category + "\n";
+            telegramAPI.sendMessage(message.chat.id, message.message_id, text, callback);
+        });
     });
 }
 function daID(message, callback) {
     console.log("/id");
-    deviantAPI.getData("id", function(data) {
+    if (message[1] != "") {
+        callback();
+        return;
+    }
+    deviantAPI.getProfile(message[1], function(data) {
+        if (data.error) {
+            console.log(data);
+            telegramAPI.sendMessage(message.chat.id, message.message_id, data.error_description, callback);
+            return;
+        }
+        var text = "ID: " + data.user.username + "\n";
+        if (data.country != "") {
+            text += "Country: " + data.country + "\n";
+        }
+        if (data.website != "") {
+            text += "Website: " + data.website + "\n";
+        }
+        text += data.profile_url;
         telegramAPI.sendMessage(message.chat.id, message.message_id, text, callback);
     });
 }
@@ -46,20 +75,16 @@ function daHelp(message, callback) {
     console.log("/help");
     telegramAPI.sendMessage(message.chat.id, message.message_id, config.info.help, callback);
 }
-function da(message, callback) {
-    console.log("/*");
-    telegramAPI.sendMessage(message.chat.id, message.message_id, "received.", callback);
-}
-
 
 var bot = {
     reply : function(message, callback) {
-        switch (message.text) {
+        message.text = message.text.split(" ", 5);
+        switch (message.text[0]) {
             // TO-DO 使用正则表达式
-            case "/rss":
-            case "/rss" + config.bot.id:
-                daRSS(message, callback);
-                break;
+            // case "/rss":
+            // case "/rss" + config.bot.id:
+            //     daRSS(message, callback);
+            //     break;
             case "/hot":
             case "/hot" + config.bot.id:
                 daHot(message, callback);
@@ -77,7 +102,6 @@ var bot = {
                 daAbout(message, callback);
                 break;
             default:
-                //da(message, callback);
                 callback();
         }
     },
