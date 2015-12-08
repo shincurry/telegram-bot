@@ -46,9 +46,9 @@ var da = {
         request(query, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var temp = JSON.parse(response.body);
-                console.log(getData 200);
+                console.log("getData 200");
                 console.log(temp);
-                callback(temp.results);
+                callback(temp);
             } else {
                 console.log("error in getData");
                 console.log(error);
