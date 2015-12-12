@@ -1,4 +1,7 @@
 var request = require('request');
+
+var config = require("./config.js");
+
 var accessTokenUrl = "https://www.deviantart.com/oauth2/token?grant_type=client_credentials&client_id=" + config.deviantart.client_id + "&client_secret=" + config.deviantart.client_secret;
 var baseUrl = "https://www.deviantart.com/api/v1/oauth2";
 var requestUrl = {
@@ -38,9 +41,9 @@ function updateAccessToken(callback) {
     });
 }
 
-updateAccessToken(function() {
-    setInterval(updateAccessToken, accessToken.ExpireTime - 600000);
-});
+// updateAccessToken(function() {
+//     setInterval(updateAccessToken, accessToken.ExpireTime - 600000);
+// });
 
 function requestDeviantAPI(query, callback) {
     request(query, function (error, response, body) {

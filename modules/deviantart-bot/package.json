@@ -1,0 +1,10 @@
+{
+    "name": "deviantart-bot",
+    "version": "0.3.0",
+    "description": "Telegram bot Node.js App module",
+    "author": "ShinCurry",
+    "main": "bot.js",
+    "dependencies": {
+        "request": "^2.67.0"
+    }
+}

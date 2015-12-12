@@ -1,6 +1,7 @@
-var deviantAPI = require('./API/deviantart.js');
-var telegramAPI = require('./API/telegram.js');
-var feed = require("feed-read");
+var telegramAPI = require('../../API/telegram.js');
+var deviantAPI = require('./deviantart.js');
+
+var config = require('./config.js');
 
 Array.prototype.forRandom = function(n, callback) {
     if (n >= this.length) {
@@ -16,16 +17,6 @@ Array.prototype.forRandom = function(n, callback) {
         temp[index] = temp[--len];
     }
 }
-
-function daRSS(message, callback) {
-    var daRSS = "http://backend.deviantart.com/rss.xml?type=deviation&q=boost%3Apopular+in%3Adigitalart%2Fdrawings";
-    feed(daRSS, function(err, articles) {
-        if (err) throw err;
-        text = "temp rss";
-        telegramAPI.sendMessage(message.chat.id, message.message_id, text, callback);
-    });
-}
-
 
 function daHot(message, callback) {
     console.log("/hot");
@@ -57,7 +48,7 @@ function daID(message, callback) {
             return;
         }
         var text = "ID: " + data.user.username + "\n";
-        if (data.country != "") {
+        if (data.country != "Unknown") {
             text += "Country: " + data.country + "\n";
         }
         if (data.website != "") {
@@ -69,42 +60,39 @@ function daID(message, callback) {
 }
 function daAbout(message, callback) {
     console.log("/about");
-    telegramAPI.sendMessage(message.chat.id, message.message_id, config.info.about, callback);
+    telegramAPI.sendMessage(message.chat.id, message.message_id, config.bot.info.about, callback);
 }
 function daHelp(message, callback) {
     console.log("/help");
-    telegramAPI.sendMessage(message.chat.id, message.message_id, config.info.help, callback);
+    telegramAPI.sendMessage(message.chat.id, message.message_id, config.bot.info.help, callback);
 }
 
-var bot = {
-    reply : function(message, callback) {
+var daBot = {
+    reply : function(body, callback) {
+        var message = body.message;
         message.text = message.text.split(" ", 5);
         switch (message.text[0]) {
             // TO-DO 使用正则表达式
-            // case "/rss":
-            // case "/rss" + config.bot.id:
-            //     daRSS(message, callback);
-            //     break;
             case "/hot":
-            case "/hot" + config.bot.id:
+            case "/hot" + botID:
                 daHot(message, callback);
                 break;
             case "/id":
-            case "/id" + config.bot.id:
+            case "/id" + botID:
                 daID(message, callback);
                 break;
             case "/help":
-            case "/help" + config.bot.id:
+            case "/help" + botID:
                 daHelp(message, callback);
                 break;
             case "/about":
-            case "/about" + config.bot.id:
+            case "/about" + botID:
                 daAbout(message, callback);
                 break;
             default:
                 callback();
         }
-    },
+    }
 }
 
-module.exports = bot;
+module.exports = daBot;
