@@ -4,15 +4,15 @@ DeviantART Telegram Bot Server
 
 work in process.
 
-## Bot
+## DeviantART Bot Demo
 
 [Deviant Bot](https://telegram.me/deviant_art_bot)
 
 ## Installation
 
 ```
-$ git clone https://github.com/ShinCurry/DeviantART-Bot.git
-$ cd DeviantART-Bot
+$ git clone https://github.com/ShinCurry/telegram-bot.git
+$ cd telegram-bot
 $ cp config.example.js config.js
 $ vi config.js
 $ npm install
@@ -26,26 +26,39 @@ Telegram setWebHook
 https://api.telegram.org/bot<yourToken>/setwebhook?url=<yourWebsite>/deviantart
 ```
 
-edit `conifg.js`
+edit App & Modules `conifg.js`
 
 ```
 var config = {
 	app : {
 		url : "127.0.0.1",
 		port : 3003
-	},
-	telegram : {
-		url : "https://api.telegram.org/bot",
-		token : "<your token>"
-	},
-	deviantart : {
-		client_id : "<your id>",
-		client_secret : "<your secret>"
 	}
 }
 ```
 
-## Usage
+
+
+## Modules
+
+* DeviantART Bot
+* CFC Studio Bot
+
+## Modules Usage
+
+DeviantART Bot
+
+``` Javascript
+var daBot = require('./modules/deviantart-bot');
+
+daBot.reply(req.body, function() {
+    console.log("responsed.");
+    res.status(200).end();
+});
+```
+
+
+## Run
 
 ```
 $ npm start
@@ -64,7 +77,7 @@ $ forever start app.js
 $ forever stop app.js
 ```
 
-### Bot Commands
+### DeviantART Bot Commands
 
 ```
 Commands list:

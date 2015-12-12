@@ -31,7 +31,7 @@ function daHot(message, callback) {
             text += "Author @ " + element.author.username + "\n";
             text += "Category # " + element.category + "\n";
             text += element.url;
-            telegramAPI.sendMessage(message.chat.id, message.message_id, text, callback);
+            telegramAPI.sendMessage(config.bot.secret, message.chat.id, message.message_id, text, callback);
         });
     });
 }
@@ -44,7 +44,7 @@ function daID(message, callback) {
     deviantAPI.getProfile(message.text[1], function(data) {
         if (data.error) {
             console.log(data);
-            telegramAPI.sendMessage(message.chat.id, message.message_id, data.error_description, callback);
+            telegramAPI.sendMessage(config.bot.secret, message.chat.id, message.message_id, data.error_description, callback);
             return;
         }
         var text = "ID: " + data.user.username + "\n";
@@ -55,38 +55,42 @@ function daID(message, callback) {
             text += "Website: " + data.website + "\n";
         }
         text += data.profile_url;
-        telegramAPI.sendMessage(message.chat.id, message.message_id, text, callback);
+        telegramAPI.sendMessage(config.bot.secret, message.chat.id, message.message_id, text, callback);
     });
 }
 function daAbout(message, callback) {
     console.log("/about");
-    telegramAPI.sendMessage(message.chat.id, message.message_id, config.bot.info.about, callback);
+    telegramAPI.sendMessage(config.bot.secret, message.chat.id, message.message_id, config.bot.info.about, callback);
 }
 function daHelp(message, callback) {
     console.log("/help");
-    telegramAPI.sendMessage(message.chat.id, message.message_id, config.bot.info.help, callback);
+    telegramAPI.sendMessage(config.bot.secret, message.chat.id, message.message_id, config.bot.info.help, callback);
 }
 
 var daBot = {
     reply : function(body, callback) {
         var message = body.message;
+        if (message.text == undefined) {
+            callback();
+            return;
+        }
         message.text = message.text.split(" ", 5);
         switch (message.text[0]) {
             // TO-DO 使用正则表达式
             case "/hot":
-            case "/hot" + botID:
+            case "/hot" + config.bot.id:
                 daHot(message, callback);
                 break;
             case "/id":
-            case "/id" + botID:
+            case "/id" + config.bot.id:
                 daID(message, callback);
                 break;
             case "/help":
-            case "/help" + botID:
+            case "/help" + config.bot.id:
                 daHelp(message, callback);
                 break;
             case "/about":
-            case "/about" + botID:
+            case "/about" + config.bot.id:
                 daAbout(message, callback);
                 break;
             default:

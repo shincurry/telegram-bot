@@ -1,9 +1,10 @@
 var request = require('request');
 
 var tg = {
-    sendMessage : function(chatID, messageID, message, callback) {
+    sendMessage : function(secret, chatID, messageID, message, callback) {
         console.log("sending message");
-        var baseUrl = config.telegram.url + config.telegram.token + "/sendMessage";
+        var baseUrl = secret.url + secret.token + "/sendMessage";
+        console.log(baseUrl);
         var params = {
             chat_id : chatID,
             text : message

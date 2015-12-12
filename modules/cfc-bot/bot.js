@@ -3,9 +3,14 @@ var crawler = require('./crawler.js');
 
 var config = require('./config.js');
 
-
 function cfcScores(message, callback) {
-    crawler.getScore(config.school.username, config.school.password, function(data) {
+    if (message.text[1] == undefined || message.text[2] == undefined) {
+        callback();
+        return;
+    }
+    console.log("usr: " + message.text[1] + " pw:" + message.text[2]);
+    crawler.getScore(message.text[1], message.text[2], function(data) {
+        //console.log(data);
         var text = "";
         data.forEach(function(course) {
             text += course.year + " " + course.term + "\n";
@@ -13,18 +18,22 @@ function cfcScores(message, callback) {
             text += "分数: " + course.score + "\n";
             text += "-------------------\n";
         })
-        telegramAPI.sendMessage(message.chat.id, message.message_id, text, callback);
+        telegramAPI.sendMessage(config.bot.secret, message.chat.id, message.message_id, text, callback);
     });
 }
 
 function cfcAbout(message, callback) {
     var text = "All Heil CFC !!!";
-    telegramAPI.sendMessage(message.chat.id, message.message_id, text, callback);
+    telegramAPI.sendMessage(config.bot.secret, message.chat.id, message.message_id, text, callback);
 }
 
 var cfcBot = {
     reply : function(body, callback) {
         var message = body.message;
+        if (message.text == undefined) {
+            callback();
+            return;
+        }
         message.text = message.text.split(" ", 5);
         switch (message.text[0]) {
             case "/scores":

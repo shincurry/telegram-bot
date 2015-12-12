@@ -41,9 +41,9 @@ function updateAccessToken(callback) {
     });
 }
 
-// updateAccessToken(function() {
-//     setInterval(updateAccessToken, accessToken.ExpireTime - 600000);
-// });
+updateAccessToken(function() {
+    setInterval(updateAccessToken, accessToken.ExpireTime - 600000);
+});
 
 function requestDeviantAPI(query, callback) {
     request(query, function (error, response, body) {

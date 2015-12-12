@@ -47,6 +47,9 @@ var c = {
         var entryUrl = 'http://jwxt.i.cqut.edu.cn';
 
         request(entryUrl, function(err, res, body){
+            if (err) {
+                return console.log(err);
+            }
             var $ = cheerio.load(body);//加载DOM
             var __viewState = $('input[name=__VIEWSTATE]').attr('value');
             var cookie = res.client._httpMessage.path.toString();
@@ -66,7 +69,7 @@ var c = {
                     hidPdrs:"",
                     hidsc:""})
                 .on('error',function(err){
-                    console.err(err);
+                    return console.error(err);
                 })
                 .on('response', function(res){
                     if(res.statusCode == 302) {//登录成功
@@ -94,6 +97,9 @@ var c = {
                                 Referer:referer
                             }
                         },function(err, res, body){
+                            if (err) {
+                                return console.log(err);
+                            }
                             var $ = cheerio.load(resolveGB2312Html(body));
                             var __viewState = $('input[name=__VIEWSTATE]').attr('value');
                             //var name = $()
