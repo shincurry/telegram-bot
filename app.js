@@ -14,20 +14,20 @@ app.post('/deviantart', function(req, res) {
     console.log("get /deviantart POST request");
 
     daBot.reply(req.body, function() {
-        console.log("responsed.");
+        console.log('responsed.');
         res.status(200).end();
     });
 });
 
 app.post('/cfc', function(req, res) {
-    console.log("get /cfc POST request");
+    console.log('get /cfc POST request');
 
     cfcBot.reply(req.body, function() {
-        console.log("responsed.");
+        console.log('responsed.');
         res.status(200).end();
     })
 })
 
 app.listen(config.app.port, config.app.url, function() {
-        console.log("app run in " + config.app.url + ":" + config.app.port);
+        console.log('app run in ' + config.app.url + ':' + config.app.port);
 });

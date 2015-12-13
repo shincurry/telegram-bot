@@ -1,4 +1,4 @@
-# DeviantART-Bot
+# Telegram-Bot
 
 DeviantART Telegram Bot Server
 

@@ -1,18 +1,15 @@
 var config = {
     bot : {
-        id : "@",
-        secret : {
-            url : "https://api.telegram.org/bot",
-        	token : "146235298:AAEOFWqzWLpEYFqEfT-2uPIOtWy2sxSX4MQ"
-        },
+        id : '@',
+        token : '',
         info : {
-    		about : "DeviantART bot created by @shincurry.\nGithub: https://github.com/ShinCurry/DeviantART-Bot",
-    		help : "Commands list:\ntest - Command Test\nhelp - Bot Help\nabout - About This Bot\nrss - get DeviantART RSS"
+    		about : 'DeviantART bot created by @shincurry.\nGithub: https://github.com/ShinCurry/telegram-bot',
+    		help : 'Commands list:\ntest - Command Test\nhelp - Bot Help\nabout - About This Bot\nrss - get DeviantART RSS'
     	}
     },
 	deviantart : {
-		client_id : "",
-		client_secret : ""
+		client_id : '',
+		client_secret : ''
 	}
 }
 

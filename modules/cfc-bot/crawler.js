@@ -1,6 +1,7 @@
 /**
- * Created by Monomania on 12/11/15.
+ * Created by DoliaWu on 12/11/15.
  */
+
 var url = require('url');
 var cheerio = require('cheerio');
 var request = require('request');
